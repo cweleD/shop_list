@@ -1,38 +1,77 @@
+import { useState } from "react";
+
 export default function App() {
+  const [products, setProducts] = useState([]);
+
+  function addItem(product) {
+    setProducts((products) => [...products, product]);
+  }
+
+  function deleteItem(id) {
+    setProducts((product) => product.filter((product) => product.id !== id));
+  }
+
   return (
     <div className="shopping">
       <h1>Shopping Budget</h1>
       <Budget />
-      <Form />
-      <ProductList />
+      <Form onAddItem={addItem} />
+      <ProductList products={products} deleteItem={deleteItem} />
     </div>
   );
 }
 
 function Budget() {
+  const [budget, setBudget] = useState("");
+
   return (
     <>
-      <form className="form-group">
-        <label>Budget: </label>
-        <input type="text" />
-        <button>Add</button>
-      </form>
-      <p>Your budget is: R5000, shopping can be fun but please don't exceed!</p>
+      <label>Budget: </label>
+      <input
+        type="text"
+        value={budget}
+        onChange={(e) => setBudget(e.target.value)}
+      />
+      <p>
+        Your budget is: R{budget}, shopping can be fun but please don't exceed!
+      </p>
     </>
   );
 }
 
-function Form() {
+function Form({ onAddItem }) {
+  const [shopProduct, setShopProduct] = useState("");
+  const [price, setPrice] = useState(0);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const id = crypto.randomUUID();
+    const newShopList = { shopProduct, price, id };
+    onAddItem(newShopList);
+
+    setShopProduct("");
+    setPrice(0);
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="form-group">
         <div className="input-field">
           <label>Product: </label>
-          <input type="text" />
+          <input
+            type="text"
+            value={shopProduct}
+            onChange={(e) => setShopProduct(e.target.value)}
+          />
         </div>
         <div className="inputField">
           <label>price: </label>
-          <input type="text" />
+          <input
+            type="text"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
         </div>
         <button>Add</button>
       </div>
@@ -40,41 +79,23 @@ function Form() {
   );
 }
 
-function ProductList() {
+function ProductList({ products, index, deleteItem }) {
   return (
     <ul>
-      <Product />
+      {products.map((product) => (
+        <Product key={product.id} product={product} deleteItem={deleteItem} />
+      ))}
     </ul>
   );
 }
 
-function Product() {
+function Product({ product, deleteItem }) {
   return (
     <>
       <li>
-        <span className="item">Product One</span>
-        <span className="price">R450</span>
-        <button>Delete</button>
-      </li>
-      <li>
-        <span className="item">Product One</span>
-        <span className="price">R450</span>
-        <button>Delete</button>
-      </li>
-      <li>
-        <span className="item">Product One</span>
-        <span className="price">R450</span>
-        <button>Delete</button>
-      </li>
-      <li>
-        <span className="item">Product One</span>
-        <span className="price">R450</span>
-        <button>Delete</button>
-      </li>
-      <li>
-        <span className="item">Product One</span>
-        <span className="price">R450</span>
-        <button>Delete</button>
+        <span className="item">{product.shopProduct}</span>
+        <span className="price">R{product.price}</span>
+        <button onClick={() => deleteItem(product.id)}>Delete</button>
       </li>
     </>
   );
