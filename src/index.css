@@ -5,9 +5,56 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  min-height: 90vh;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.shopping {
+  background-color: #2c44a5;
+  color: #fff;
+  border-radius: 8px;
+  padding: 15px 45px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.shopping ul {
+  padding-left: 0;
+  list-style: none;
+  width: 100%;
+}
+
+.shopping ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+}
+.shopping ul li:nth-child(odd) {
+  background-color: #4568ef;
+}
+
+.shopping button, input[type="text"] {
+  background-color: transparent;
+  border: 1px solid #fff;
+  outline: none;
+  color: #fff;
+  padding: 6px 18px;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+}
+
+.inputField:nth-child(2) {
+  margin-left: 15px;
 }
